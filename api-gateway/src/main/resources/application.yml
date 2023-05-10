@@ -1,0 +1,35 @@
+server:
+  port: 5555
+
+management:
+  security:
+    enabled: false
+
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      routes:
+        - id: CUSTOMER-SERVICE
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/customer/**
+
+        - id: SECURITY-SERVICE
+          uri: lb://SECURITY-SERVICE
+          predicates:
+            - Path=/security/**
+
+  main:
+    allow-bean-definition-overriding: true
+    allow-circular-references: true
+
+
+logging:
+  level:
+    org:
+      springframework: DEBUG
+
+# remote:
+  # home: http://localhost:8030/user/security/demo
